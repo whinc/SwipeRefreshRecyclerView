@@ -1,16 +1,17 @@
 package com.whinc.test.swiperefreshrecyclerview;
 
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.whinc.widget.SwipeRefreshRecyclerView;
 
@@ -25,34 +26,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SwipeRefreshRecyclerView refreshRecyclerView = (SwipeRefreshRecyclerView) findViewById(R.id.swipe_refresh_recycler_view);
+        // Find view
+        final SwipeRefreshRecyclerView refreshRecyclerView
+                = (SwipeRefreshRecyclerView) findViewById(R.id.swipe_refresh_recycler_view);
 
+        // Listener to refresh event
+        refreshRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(MainActivity.this, "Refresh begin", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshRecyclerView.setRefreshing(false);
+                        Toast.makeText(MainActivity.this, "Refresh end", Toast.LENGTH_SHORT).show();
+                    }
+                }, 3000);
+            }
+        });
+
+        // Set adapter to RecyclerView
         RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MyAdapter());
 
+        // Listener to load more event
         refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                Log.i(TAG, "load more");
-                new AsyncTask<Void, Void, Void>() {
-
+                Toast.makeText(MainActivity.this, "load more begin", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
+                    public void run() {
                         refreshRecyclerView.finishLoading();
+                        Toast.makeText(MainActivity.this, "load more finish", Toast.LENGTH_SHORT).show();
                     }
-                }.execute();
+                }, 3000);
             }
         });
     }
