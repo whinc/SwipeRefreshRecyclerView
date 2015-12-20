@@ -62,3 +62,7 @@ refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMor
     }
 });
 ```
+
+### Internal Implementation 内部实现
+
+`SwipeRefreshRecyclerView`是一个组合控件，其继承自`SwipeRefreshLayout`，内部包含一个`RecyclerView`，就这样简单的组合就已经可以实现下拉刷新了。为了实现列表滚动到最后一项时加载更多，`SwipeRefreshRecyclerView`监听了`RecyclerView`的触摸事件，一旦发现发现列表滚动到最后一项并满足条件，就触发load more事件。
