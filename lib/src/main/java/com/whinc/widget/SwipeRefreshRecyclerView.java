@@ -5,16 +5,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * Created by whinc on 2015/12/19.
  */
-public class SwipeRefreshRecyclerView extends SwipeRefreshLayout
-        implements GestureDetector.OnGestureListener{
+public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     private static final String TAG = SwipeRefreshRecyclerView.class.getSimpleName();
     private RecyclerView mRecyclerView = null;
 
@@ -46,43 +41,25 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout
 
     private void init(AttributeSet attrs) {
         mRecyclerView = new RecyclerView(getContext());
-        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(getContext(), attrs);
-        addView(mRecyclerView, layoutParams);
-
-        final GestureDetector gestureDetector = new GestureDetector(getContext(), this);
-        mRecyclerView.setOnTouchListener(new OnTouchListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return false;
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                onScrolledHandler(recyclerView, dx, dy);
             }
         });
-    }
-
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT
+        );
+        addView(mRecyclerView, layoutParams);
 
     }
 
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        boolean scrollUp = (distanceY > 0);
+    private void onScrolledHandler(RecyclerView recyclerView, int dx, int dy) {
+        boolean scrollUp = (dy > 0);
         if (!scrollUp || isRefreshing() || isLoading() || mOnLoadMoreListener == null) {
-            return false;
+            return;
         }
 
         RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
@@ -95,17 +72,10 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout
                 mOnLoadMoreListener.loadMore();
             }
         }
-        return false;
     }
 
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
     public interface OnLoadMoreListener {

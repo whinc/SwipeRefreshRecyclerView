@@ -40,15 +40,17 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         refreshRecyclerView.setRefreshing(false);
                         Toast.makeText(MainActivity.this, "Refresh end", Toast.LENGTH_SHORT).show();
+                        refreshRecyclerView.getRecyclerView().smoothScrollToPosition(99);
                     }
                 }, 3000);
             }
         });
 
         // Set adapter to RecyclerView
-        RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
+        final RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MyAdapter());
+        recyclerView.setHasFixedSize(true);
 
         // Listener to load more event
         refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         refreshRecyclerView.finishLoading();
                         Toast.makeText(MainActivity.this, "load more finish", Toast.LENGTH_SHORT).show();
+                        recyclerView.smoothScrollToPosition(0);
                     }
                 }, 3000);
             }
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             TextView textView = new TextView(parent.getContext());
-            return new MyAdapter.ViewHolder(textView);
+            return new ViewHolder(textView);
         }
 
         @Override
