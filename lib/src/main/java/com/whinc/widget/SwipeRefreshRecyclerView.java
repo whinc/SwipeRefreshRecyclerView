@@ -69,7 +69,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
             int pos = llm.findLastVisibleItemPosition();
             if (pos == itemCount - 1) {
                 mLoading = true;
-                mOnLoadMoreListener.loadMore();
+                mOnLoadMoreListener.onLoadMore();
             }
         }
     }
@@ -79,6 +79,6 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     }
 
     public interface OnLoadMoreListener {
-        void loadMore();
+        void onLoadMore();
     }
 }

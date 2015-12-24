@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         // Listener to load more event
         refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
             @Override
-            public void loadMore() {
+            public void onLoadMore() {
                 Toast.makeText(MainActivity.this, "load more begin", Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override

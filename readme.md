@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile ('com.github.whinc:SwipeRefreshRecyclerView:1.0.2') { transitive = false }
+    compile ('com.github.whinc:SwipeRefreshRecyclerView:1.0.3') { transitive = false }
 }
 ```
 
@@ -49,7 +49,7 @@ recyclerView.setAdapter(new MyAdapter());
 // Listener to load more event
 refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
     @Override
-    public void loadMore() {
+    public void onLoadMore() {
         Toast.makeText(MainActivity.this, "load more begin", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
             @Override
