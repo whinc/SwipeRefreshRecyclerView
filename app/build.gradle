@@ -25,7 +25,8 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':lib')
-//    compile 'com.github.whinc:swipe-refresh-recycler-view:1.0.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+//    compile ('com.github.whinc:SwipeRefreshRecyclerView:-SNAPSHOT') { transitive = false }
 }
