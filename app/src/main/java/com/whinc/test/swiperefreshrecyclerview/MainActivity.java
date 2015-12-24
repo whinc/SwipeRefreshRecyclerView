@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshRecyclerView.finishLoading();
+                        refreshRecyclerView.setLoading(false);
                         Toast.makeText(MainActivity.this, "load more finish", Toast.LENGTH_SHORT).show();
                         recyclerView.smoothScrollToPosition(0);
                     }

@@ -17,8 +17,8 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         return mLoading;
     }
 
-    public void finishLoading() {
-        mLoading = false;
+    public void setLoading(boolean loading) {
+        mLoading = loading;
     }
 
     private boolean mLoading = false;
