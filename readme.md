@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile ('com.github.whinc:SwipeRefreshRecyclerView:1.0.3') { transitive = false }
+    compile 'com.github.whinc:SwipeRefreshRecyclerView:1.1.0'
 }
 ```
 
