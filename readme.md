@@ -1,8 +1,10 @@
-### swipe-refresh-recycler-view
+### SwipeRefreshRecyclerView
 
-A `RecyclerView` that implements pull refresh and load more. 
+Features:
 
-一个实现了下拉刷新和上拉加载更多的`RecyclerView`。
+* Pull down to refresh (下拉刷新)
+* Pull up to load more (上拉加载更多)
+* Show custom empty view when list is empty (列表为空时显示自定义的空视图)
 
 ![screenshot](./screenshot.gif)
 

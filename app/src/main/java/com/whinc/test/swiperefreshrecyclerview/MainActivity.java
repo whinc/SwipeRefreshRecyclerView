@@ -18,8 +18,9 @@ import com.whinc.widget.SwipeRefreshRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
+    private MyAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Find view
+        findViewById(R.id.add_items_btn).setOnClickListener(this);
+        findViewById(R.id.clear_all_btn).setOnClickListener(this);
         final SwipeRefreshRecyclerView refreshRecyclerView
                 = (SwipeRefreshRecyclerView) findViewById(R.id.swipe_refresh_recycler_view);
+
+        // Set adapter to RecyclerView
+        final RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new MyAdapter();
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setHasFixedSize(true);
+
+        View emptyView = refreshRecyclerView.setEmptyView(R.layout.include_empty_view);
+        emptyView.findViewById(R.id.retry_btn).setOnClickListener(this);
 
         // Listener to refresh event
         refreshRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -46,12 +59,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set adapter to RecyclerView
-        final RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MyAdapter());
-        recyclerView.setHasFixedSize(true);
-
         // Listener to load more event
         refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
             @Override
@@ -67,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 }, 3000);
             }
         });
+
     }
 
     @Override
@@ -91,14 +99,40 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_items_btn:
+                for (int i = 0; i < 100; ++i) {
+                    mAdapter.add(String.valueOf(i));
+                }
+                break;
+            case R.id.clear_all_btn:
+                mAdapter.clear();
+                break;
+            case R.id.retry_btn:
+                Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+    }
+
     static class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         private List<String> mData = new ArrayList<>();
 
         public MyAdapter() {
-            for (int i = 0; i < 100; ++i) {
-                mData.add(String.valueOf(i));
-            }
+        }
+
+        public void add(String item) {
+            mData.add(item);
+            notifyItemInserted(mData.size());
+        }
+
+        public void clear() {
+            mData.clear();
+            notifyDataSetChanged();
         }
 
         @Override
