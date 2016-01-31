@@ -30,44 +30,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Find view
         findViewById(R.id.add_items_btn).setOnClickListener(this);
         findViewById(R.id.clear_all_btn).setOnClickListener(this);
-        final SwipeRefreshRecyclerView refreshRecyclerView
+        final SwipeRefreshRecyclerView swipeRefreshRecyclerView
                 = (SwipeRefreshRecyclerView) findViewById(R.id.swipe_refresh_recycler_view);
 
         // Set adapter to RecyclerView
-        final RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
+        final RecyclerView recyclerView = swipeRefreshRecyclerView.getRecyclerView();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new MyAdapter();
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
-        View emptyView = refreshRecyclerView.setEmptyView(R.layout.include_empty_view);
+        View emptyView = swipeRefreshRecyclerView.setEmptyView(R.layout.include_empty_view);
         emptyView.findViewById(R.id.retry_btn).setOnClickListener(this);
 
         // Listener to refresh event
-        refreshRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Toast.makeText(MainActivity.this, "Refresh begin", Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshRecyclerView.setRefreshing(false);
+                        swipeRefreshRecyclerView.setRefreshing(false);
                         Toast.makeText(MainActivity.this, "Refresh end", Toast.LENGTH_SHORT).show();
-                        refreshRecyclerView.getRecyclerView().smoothScrollToPosition(99);
+                        swipeRefreshRecyclerView.getRecyclerView().smoothScrollToPosition(99);
                     }
                 }, 3000);
             }
         });
 
         // Listener to load more event
-        refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
+        swipeRefreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 Toast.makeText(MainActivity.this, "load more begin", Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshRecyclerView.setLoading(false);
+                        swipeRefreshRecyclerView.setLoading(false);
                         Toast.makeText(MainActivity.this, "load more finish", Toast.LENGTH_SHORT).show();
                         recyclerView.smoothScrollToPosition(0);
                     }

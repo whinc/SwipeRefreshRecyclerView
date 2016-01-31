@@ -28,6 +28,14 @@ dependencies {
 final SwipeRefreshRecyclerView refreshRecyclerView
         = (SwipeRefreshRecyclerView) findViewById(R.id.swipe_refresh_recycler_view);
 
+// Get RecyclerView and setup Adapter
+RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
+recyclerView.setLayoutManager(new LinearLayoutManager(this));
+recyclerView.setAdapter(new MyAdapter());
+
+// Setup empty view
+View emptyView = swipeRefreshRecyclerView.setEmptyView(R.layout.include_empty_view);
+
 // Listener to refresh event
 refreshRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
     @Override
@@ -42,11 +50,6 @@ refreshRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListene
         }, 3000);
     }
 });
-
-// Set adapter to RecyclerView
-RecyclerView recyclerView = refreshRecyclerView.getRecyclerView();
-recyclerView.setLayoutManager(new LinearLayoutManager(this));
-recyclerView.setAdapter(new MyAdapter());
 
 // Listener to load more event
 refreshRecyclerView.setOnLoadMoreListener(new SwipeRefreshRecyclerView.OnLoadMoreListener() {
