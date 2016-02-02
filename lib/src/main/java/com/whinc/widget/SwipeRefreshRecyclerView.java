@@ -1,6 +1,7 @@
 package com.whinc.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +91,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout implements MyAd
             TextView textView = new TextView(getContext());
             textView.setText(getClass().getName());
             addView(textView);
+            setBackgroundColor(Color.GRAY);
             return;
         }
         // 布局容器
